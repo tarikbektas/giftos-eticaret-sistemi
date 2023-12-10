@@ -162,7 +162,7 @@ router.post('/product',upload.fields([{ name: 'image1', maxCount: 1 }]),  (req, 
   })
 })
 
-router.get('/delete-product',admincontrollers.deleteProduct)
+router.post('/delete-product',admincontrollers.deleteProduct)
 
 
 

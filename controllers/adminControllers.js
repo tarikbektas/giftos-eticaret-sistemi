@@ -157,6 +157,7 @@ module.exports.getProduct = (req,res) =>{
 
 module.exports.deleteProduct = (req,res)=>{
   const id = req.body.id
+  console.log('gelen id :',id)
   Product.deleteOne({_id:id})
   .then(()=>{
     console.log("ürün silindi")
