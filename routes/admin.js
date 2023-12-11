@@ -176,6 +176,9 @@ router.get('/add-category',admincontrollers.addCategory)
 
 
 
+router.get('/navbar',admincontrollers.getNavbar)
+router.post('/navbar',admincontrollers.postNavbar)
+router.post('/navbar-delete',admincontrollers.deleteNavbar)
 
 
 module.exports = router

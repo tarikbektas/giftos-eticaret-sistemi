@@ -4,10 +4,11 @@ const Schema = mongoose.Schema
 
 
 const navbar = new Schema({
+    title:String,
     url : String,
     sira: Number,
-    title:String,
-    sayfa:String
+    type:String
+   
 })
 
 const Navbar = mongoose.model("navbar",navbar)

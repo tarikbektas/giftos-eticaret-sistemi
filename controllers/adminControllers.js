@@ -1,11 +1,11 @@
+const mongoose = require('mongoose')
+
 const Setting = require('../models/settings')
 const Slider =require('../models/slider')
 const Pages  = require('../models/pages')
 const Prodcat = require('../models/prodcats') 
 const Product = require('../models/product')
-const mongoose = require('mongoose')
-
-
+const Navbar= require('../models/navbar')
 
 
 
@@ -171,13 +171,7 @@ module.exports.deleteProduct = (req,res)=>{
 
 
 
-
-
-
-
-
-
-
+ 
 
 
 
@@ -215,3 +209,51 @@ module.exports.deleteCategory = (req,res) =>{
  })
  
 }
+
+
+
+
+// ---------------------------------------------------------------------------
+// NAVBAR BÖLÜMĞ
+
+module.exports.getNavbar = (req,res) =>{
+  Navbar.find()
+  .then(navbar=>Pages.find()
+  .then(pages=>{
+    res.render('admin/pages/navbar/addnavbar',{layout:'admin/layouts/layout',navbar:navbar,pages:pages})
+  }))
+  
+
+}
+
+module.exports.postNavbar = (req,res)=>{
+  const type = req.body.type;
+  const title = req.body.title;
+  const url = req.body.link;
+  const sira = req.body.sira
+
+  const navbar = new Navbar({
+    type:type,
+    title:title,
+    sira:sira,
+    url:url
+  })
+  navbar.save()
+  .then(()=>{
+    console.log('Navbar Kaydedildi')
+    res.redirect('/admin/navbar')
+  })
+ 
+}
+
+module.exports.deleteNavbar = (req,res) =>{
+  const id = req.body.id
+
+  Navbar.deleteOne({_id:id})
+  .then(()=>{
+    console.log('navbar silindi')
+    res.redirect('/admin/navbar')
+  })
+}
+
+// ---------------------------------------------------------------------------
