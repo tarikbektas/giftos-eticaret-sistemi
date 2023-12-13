@@ -230,13 +230,15 @@ module.exports.postNavbar = (req,res)=>{
   const type = req.body.type;
   const title = req.body.title;
   const url = req.body.link;
-  const sira = req.body.sira
+  const sira = req.body.sira;
+  const url2= req.body.link2
 
   const navbar = new Navbar({
     type:type,
     title:title,
     sira:sira,
-    url:url
+    url:url,
+    url2:url2
   })
   navbar.save()
   .then(()=>{

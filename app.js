@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 
 // modeller
 const Setting =require('./models/settings')
-
+const Navbar =require('./models/navbar')
 
 
 
@@ -34,25 +34,26 @@ app.use((req, res, next) => {
             next();
         });
 });
-exports.getEmployeeData = async (req, res, next) => {
-    try {
-        const setting = await Setting.find(); // Tüm çalışanları çekin
-        res.locals.setting = setting; // Veriyi res.locals'a atın
+ 
+
+app.use((req,res,next)=>{
+    Navbar.find()
+    .then(navbar=>{
+        if(navbar) {
+            res.locals.navbar = navbar;
+        }
+        next()
+    })
+    .catch(err=>{
+        console.log('navbar middlewareda hata var',err )
         next();
-    } catch (error) {
-        next(error);
-    }
-};
+    })
+})
 
 
 
 
-
-
-
-
-
-
+  
 
 // router 
 const adminrouter =require('./routes/admin')
