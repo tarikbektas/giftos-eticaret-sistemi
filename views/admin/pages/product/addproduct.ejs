@@ -34,7 +34,9 @@
               <div class="col-sm-9">
                 <select class="form-control" name="category_id">
                   <% category.forEach(function(categoryitem) { %>
-                  <option value="<%=categoryitem._id %>">- <%=categoryitem.name  %></option>
+                    <% if (categoryitem.name !== "Banner Product Cat.") { %>
+                      <option value="<%=categoryitem._id %>">- <%=categoryitem.name %></option>
+                    <% } %>
                   <% }); %>
                 </select>
               </div>
@@ -54,6 +56,7 @@
                 <input type="number" name="price" class="form-control" value="">
               </div>
             </div>
+       
              
             <button type="submit" class="btn btn-primary me-2">Kaydet</button>
             <a class="btn btn-secondary" href="product">Geri</a>

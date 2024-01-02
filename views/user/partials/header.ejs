@@ -1,36 +1,79 @@
 <header class="header_section">
-    <nav class="navbar navbar-expand-lg custom_nav-container ">
-      <a class="navbar-brand" href="index.html">
-       <img style="width: 3rem;" src="../admin/<%- setting.logo  %>" alt="" >
-      </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class=""></span>
-      </button>
+  <nav class="navbar navbar-expand-lg custom_nav-container ">
+    <a class="navbar-brand" href="index.html">
+      <img style="width: 3rem;" src="../admin/<%- setting.logo  %>" alt="">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class=""></span>
+    </button>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav  ">
-          <% navbar.forEach(function(navbaritems) { %>
-          <li class="nav-item active">
-            <a class="nav-link" href="<%=navbaritems.url%><%=navbaritems.url2  %>"><%=navbaritems.title  %> <span class="sr-only">(current)</span></a>
-          </li>
-          <% }); %>
-        </ul>
-        <div class="user_option">
-          <a href="">
-            <i class="fa fa-user" aria-hidden="true"></i>
-            <span>
-              Login
-            </span>
-          </a>
-          <a href="">
-            <i class="fa fa-shopping-bag" aria-hidden="true"></i>
-          </a>
-          <form class="form-inline ">
-            <button class="btn nav_search-btn" type="submit">
-              <i class="fa fa-search" aria-hidden="true"></i>
-            </button>
-          </form>
-        </div>
+    <form action="/add-to-cart" method="post">
+               
+      <input type="hidden" name="productId" value="657f82ad14a9df1b98e85739" >
+      <input type="hidden" name="userid" value="6594426a7a22860dcc0fb8da" >
+      <input type="hidden" name="price"   value="123">
+      <button type="submit">ürün id</button>
+     </form>
+     <form action="urun-ekle" method="post">
+               
+      <input type="hidden" name="productName" value="test ürün 2" >
+      <input type="hidden" name="price"   value="1234">
+      <button type="submit">kart ekle 2</button>
+     </form>
+     <form action="urun-ekle" method="post">
+               
+      <input type="hidden" name="productName" value="test ürün 3" >
+      <input type="hidden" name="price"   value="1234">
+      <button type="submit">kart ekle 3</button>
+     </form>    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav">
+        <% navbar.forEach(function(navbaritems) { %>
+        <li class="nav-item">
+          <% if (navbaritems.url) { %>
+          <a class="nav-link" href="<%=navbaritems.url%>"><%=navbaritems.title%> <span class="sr-only">(current)</span></a>
+          <% } else if (navbaritems.url2) { %>
+          <a class="nav-link" href="/<%=navbaritems.url2%>"><%=navbaritems.title%> <span class="sr-only">(current)</span></a>
+          <% } else { %>
+          <!-- Eğer her ikisi de boşsa istediğiniz başka bir şey yapabilirsiniz -->
+          <span class="nav-link"><%=navbaritems.title%></span>
+          <% } %>
+        </li>
+        <% }); %>
+      </ul>
+      <%if(!user){ %>
+      <div class="user_option">
+        <a href="/login">
+          <i class="fa fa-user" aria-hidden="true"></i>
+          <span>
+            Login
+          </span>
+        </a>
+        <a href="">
+          <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+        </a>
+        <form class="form-inline ">
+          <button class="btn nav_search-btn" type="submit">
+            <i class="fa fa-search" aria-hidden="true"></i>
+          </button>
+        </form>
       </div>
-    </nav>
-  </header>
+      <% } %>
+      <%if(user){ %>
+
+      <div class="pull-right">
+        <ul class="nav pull-right">
+          <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome, <%-user.name  %> <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li>
+                <form action="/logout" method="POST">
+                  <button class="btn btn-primary btn-sm" type="submit">çıkış </button>
+                </form>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <% } %>
+    </div>
+  </nav>
+</header>

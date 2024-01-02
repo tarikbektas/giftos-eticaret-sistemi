@@ -6,12 +6,14 @@ const mongoose = require('mongoose');
 const Setting =require('../models/settings')
 const Slider =require('../models/slider')
 const Product = require('../models/product')
-
+const Blog = require('../models/blog')
+const Services = require('../models/services')
+const News = require('../models/news');
 
 
 
 const path = require('path');
-const multer = require('multer')
+const multer = require('multer');
 const upload = multer({ 
     storage: multer.diskStorage({
       destination: 'public/admin/uploads/',
@@ -179,6 +181,104 @@ router.get('/add-category',admincontrollers.addCategory)
 router.get('/navbar',admincontrollers.getNavbar)
 router.post('/navbar',admincontrollers.postNavbar)
 router.post('/navbar-delete',admincontrollers.deleteNavbar)
+
+// -----------------------------------------------------------
+
+router.get('/blog',admincontrollers.getBlog)
+router.get('/add-blog',admincontrollers.getAddBlog)
+router.post('/add-blog',upload.fields([{ name: 'image1', maxCount: 1 }]),  (req, res) => {
+  const files1 = req.files['image1'];
+  const title= req.body.title;
+  const desc = req.body.editor1;
+
+
+ 
+  
+  const image1Path = files1 && files1[0] ? path.join( 'uploads/', files1[0].filename) : null;
+  const blog = new Blog({
+    title:title,
+    desc:desc,
+    img:image1Path
+
+  })
+  blog.save()
+  .then(result=>{
+    console.log("blog  eklendi")
+    res.redirect('blog')
+  })
+})
+
+
+
+router.post('/delete-blog',admincontrollers.postDeleteBlog)
+
+// -----------------------------------------------------------
+router.get('/add-services',admincontrollers.getAddServices)
+
+router.get('/services',admincontrollers.getServices)
+router.post('/add-services',upload.fields([{ name: 'image1', maxCount: 1 }]),  (req, res) => {
+  const files1 = req.files['image1'];
+  const title= req.body.title;
+  const desc = req.body.editor1;
+
+ 
+  const image1Path = files1 && files1[0] ? path.join( 'uploads/', files1[0].filename) : null;
+  const services = new Services({
+    title:title,
+    desc:desc,
+    img:image1Path
+
+  })
+  services.save()
+  .then(result=>{
+    console.log("hizmet eklendi  eklendi")
+    res.redirect('services')
+  })
+})
+
+
+
+router.post('/delete-services',admincontrollers.deleteServices)
+
+// -----------------------------------------------------------
+
+router.get('/news',admincontrollers.getNews)
+router.get('/add-news',admincontrollers.getAddNews)
+router.post('/add-news',upload.fields([{ name: 'image1', maxCount: 1 }]),  (req, res) => {
+  const files1 = req.files['image1'];
+  const title= req.body.title;
+  const desc = req.body.editor1;
+
+ 
+  const image1Path = files1 && files1[0] ? path.join( 'uploads/', files1[0].filename) : null;
+  const news = new News({
+    title:title,
+    desc:desc,
+    img:image1Path
+
+  })
+  news.save()
+  .then(result=>{
+    console.log("haber eklendi  eklendi")
+    res.redirect('news')
+  })
+})
+
+router.get('/news/:id',admincontrollers.newsDetials)
+
+ 
+
+ 
+
+
+
+router.post('/test',(req,res)=>{
+  console.log('test routes')
+})
+
+// router.get('/test',admincontrollers.getTest)
+// router.post('/test',admincontrollers.postTest )
+
 
 
 module.exports = router

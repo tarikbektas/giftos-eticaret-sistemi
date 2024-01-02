@@ -4,6 +4,7 @@ const Schema = mongoose.Schema
 
 
 const product = new Schema({
+   _id: mongoose.Schema.Types.ObjectId,
    urun_barkod:String,
    urun_adi:String,
    urun_shortdesc:String,
@@ -13,7 +14,7 @@ const product = new Schema({
    prodcats: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'prodcats',
-    },
+    }
    })
 
 const Product = mongoose.model('product',product)

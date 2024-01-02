@@ -6,6 +6,35 @@ const Pages  = require('../models/pages')
 const Prodcat = require('../models/prodcats') 
 const Product = require('../models/product')
 const Navbar= require('../models/navbar')
+const Blog = require('../models/blog')
+const Services = require('../models/services')
+const News = require('../models/news')
+
+const path = require('path');
+const multer = require('multer')
+const upload = multer({ 
+    storage: multer.diskStorage({
+      destination: 'public/admin/uploads/',
+      filename: (req, file, cb) => {
+        const extname = path.extname(file.originalname);
+        const filename = file.originalname.replace(extname, '').toLowerCase().split(' ').join('-') + '-' + Date.now() + extname;
+        cb(null, filename);
+      }
+    })
+  });
+  
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -93,7 +122,7 @@ module.exports.postDeletePages = (req,res) =>{
 }
 module.exports.getEditPages = (req,res) =>{
   const id = req.params.id
-  Pages.findById(id)
+  Pages.find({_id:id})
   .then(page=>{
     res.render('admin/pages/pages/editpages',{layout:'admin/layouts/layout',page:page})
   })
@@ -107,7 +136,7 @@ module.exports.postEditPages = (req,res) =>{
   const desc = req.body.editor1
   const id = req.body.id
 
-  Pages.findById(id)
+  Pages.find({_id:id})
   .then((pages)=>{
     pages.title = title,
     pages.url = url;
@@ -149,7 +178,7 @@ module.exports.getAddProduct = (req,res)=>{
 module.exports.getProduct = (req,res) =>{
   Product.find().populate('prodcats','name')
   .then(product=>{
-   
+   console.log('ürün bilgisi',product)
     res.render('admin/pages/product/getproduct',{layout:'admin/layouts/layout',product:product})
   })
 }
@@ -217,7 +246,7 @@ module.exports.deleteCategory = (req,res) =>{
 // NAVBAR BÖLÜMĞ
 
 module.exports.getNavbar = (req,res) =>{
-  Navbar.find()
+  Navbar.find().sort({sira:1})
   .then(navbar=>Pages.find()
   .then(pages=>{
     res.render('admin/pages/navbar/addnavbar',{layout:'admin/layouts/layout',navbar:navbar,pages:pages})
@@ -259,3 +288,100 @@ module.exports.deleteNavbar = (req,res) =>{
 }
 
 // ---------------------------------------------------------------------------
+
+// ---------------------------------------------------------------------------
+// Blog Controllers
+
+module.exports.getBlog = (req,res) =>{
+  Blog.find()
+  .then(blog =>{
+    res.render('admin/pages/blog/getblog',{layout:'admin/layouts/layout',blog:blog})
+  })
+}
+
+module.exports.getAddBlog = (req,res) =>{
+  res.render('admin/pages/blog/addblog',{layout:'admin/layouts/layout'})
+}
+ 
+
+module.exports.postDeleteBlog = (req,res) =>{
+  const id = req.body.id
+  Blog.deleteOne({_id:id})
+  .then(result=>{
+    console.log('blog silindi')
+    res.redirect('/admin/blog')
+  })
+}
+
+ 
+
+
+// ---------------------------------------------------------------------------
+
+
+
+// ---------------------------------------------------------------------------
+// Blog Controllers
+
+module.exports.getServices = (req,res) =>{
+  Services.find()
+  .then(services=>{
+    res.render('admin/pages/services/getservices',{layout:'admin/layouts/layout',services:services})
+
+  })
+}
+
+
+module.exports.getAddServices = (req,res) =>{
+  res.render('admin/pages/services/addservices',{layout:'admin/layouts/layout'})
+}
+
+
+module.exports.deleteServices = (req,res) =>{
+  const id = req.body.id
+
+  Services.deleteOne({_id:id})
+  .then(result=>{
+    console.log('servis silindi')
+    res.redirect('/admin/services')
+  })
+}
+
+// --------------------------------------------------------------
+  // haberler
+
+module.exports.getNews = (req,res) =>{
+  News.find()
+  .then(news=>{
+    res.render('admin/pages/news/getnews',{layout:'admin/layouts/layout',news:news})
+  })
+} 
+
+
+module.exports.getAddNews = (req,res) =>{
+  res.render('admin/pages/news/addnews',{layout:'admin/layouts/layout'})
+
+
+}
+
+module.exports.newsDetials = (req,res)=>{
+  const id = req.params.id
+  News.find({_id:id})
+  .then(news=>{
+    res.render('admin/pages/news/newsdetials',{layout:'admin/layouts/layout2',news:news})
+  })
+}
+
+
+// --------------------------------------------------------------
+
+
+module.exports.getTest = (req,res) =>{
+  res.render('admin/pages/test',{layout:'admin/layouts/layout'})
+}
+
+module.exports.postTest = (req,res) =>{
+  const katagori = req.body.categories
+  res.send('test ')
+  console.log('gelen katagori bilgisi:',katagori)
+}

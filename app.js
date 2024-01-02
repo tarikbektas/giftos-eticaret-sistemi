@@ -10,6 +10,34 @@ const Setting =require('./models/settings')
 const Navbar =require('./models/navbar')
 
 
+const passport = require('passport')
+const flash =require('connect-flash')
+const session =require('express-session')
+const cookieParser = require("cookie-parser")
+
+app.use(cookieParser("passporttutorial"));
+app.use(session({cookie:{maxAge:60000},
+resave:true,
+secret:"passporttutorial",
+saveUninitialized:true
+}))
+app.use(flash());
+
+app.use(passport.initialize())
+app.use(passport.session())
+
+
+
+// local flashlar  ve local bilgiler
+app.use((req,res,next)=>{
+    
+    res.locals.succsess = req.flash('loginsuccess')
+    res.locals.passportFailure = req.flash('error')
+    res.locals.passportSuccess=req.flash('success')
+     res.locals.user = req.user
+
+      next()
+})
 
 
 
@@ -66,7 +94,8 @@ app.use(ejsLayouts)
  
  
 
-const path = require('path')
+const path = require('path');
+const { compareSync } = require('bcrypt');
 app.use(express.static(path.join(__dirname, '/public')));
  
 
