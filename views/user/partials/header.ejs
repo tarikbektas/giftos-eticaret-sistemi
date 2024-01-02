@@ -1,3 +1,4 @@
+<%include('../message/flashmessage')  %>
 <header class="header_section">
   <nav class="navbar navbar-expand-lg custom_nav-container ">
     <a class="navbar-brand" href="index.html">
@@ -7,25 +8,9 @@
       <span class=""></span>
     </button>
 
-    <form action="/add-to-cart" method="post">
-               
-      <input type="hidden" name="productId" value="657f82ad14a9df1b98e85739" >
-      <input type="hidden" name="userid" value="6594426a7a22860dcc0fb8da" >
-      <input type="hidden" name="price"   value="123">
-      <button type="submit">ürün id</button>
-     </form>
-     <form action="urun-ekle" method="post">
-               
-      <input type="hidden" name="productName" value="test ürün 2" >
-      <input type="hidden" name="price"   value="1234">
-      <button type="submit">kart ekle 2</button>
-     </form>
-     <form action="urun-ekle" method="post">
-               
-      <input type="hidden" name="productName" value="test ürün 3" >
-      <input type="hidden" name="price"   value="1234">
-      <button type="submit">kart ekle 3</button>
-     </form>    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav">
         <% navbar.forEach(function(navbaritems) { %>
         <li class="nav-item">

@@ -48,8 +48,6 @@ router.post('/add-to-cart',isLoggedIn, async (req, res) => {
     // Ürünü sepete ekle
     const product = await Product.findById(productId);
     const cart = await Cart.findById(user.usercartid);
-    console.log('kart bilgisi',cart)
-    console.log('product  bilgisi',product)
     cart.products.push(product);
     await cart.save();
 
@@ -61,10 +59,17 @@ router.post('/add-to-cart',isLoggedIn, async (req, res) => {
 });
 router.get('/dashboard',isLoggedIn, async (req, res) => {
   const user = req.user;
-
+ 
+  
+ 
   // Kullanıcının sepetini ve diğer bilgilerini al
   const cart = await Cart.findById(user.usercartid).populate('products');
-  res.render('user/dashboard', {layout:false,cart });
+  const total = calculateTotal(cart.products);
+  function calculateTotal(products) {
+    return products.reduce((total, product) => total + product.urun_fiyat, 0);
+  }
+  res.render('user/dashboard', {layout:false,cart,total:total});
+  console.log('total',total)
 });
 
 module.exports =router
